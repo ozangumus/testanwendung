@@ -12,7 +12,7 @@ pipeline {
             steps {
                 // Docker-Image bauen
                 script {
-                    // Verwende bat, wenn auf Windows
+                    
                     bat 'docker build -t mein-html-projekt .'
                 }
             }
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 // Docker-Container starten (lokal für Tests)
                 script {
-                    // Verwende bat, wenn auf Windows
+                    
                     bat 'docker run -d -p 8081:80 mein-html-projekt'
                 }
             }
@@ -30,6 +30,8 @@ pipeline {
             steps {
                 // Deployment auf Kubernetes
                 script {
+	            bat 'kubectl apply -f deployment.yaml --validate=false'
+
                     // Deployment mit kubectl auf Kubernetes anwenden
                     bat 'kubectl apply -f deployment.yaml'
                 }
