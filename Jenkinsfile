@@ -29,9 +29,6 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 // Deployment auf Kubernetes
-                script {
-	            bat 'kubectl apply -f deployment.yaml --validate=false'
-                }
             }
         }
     }
