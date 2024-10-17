@@ -22,7 +22,7 @@ pipeline {
                 // Docker-Container starten
                 script {
                     // Verwende bat, wenn auf Windows
-                    bat 'docker run -d -p 8080:80 mein-html-projekt'
+                    bat 'docker run -d -p 8081:80 mein-html-projekt'
                 }
             }
         }
