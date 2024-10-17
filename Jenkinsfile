@@ -26,10 +26,4 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to Kubernetes') {
-            steps {
-                // Deployment auf Kubernetes
-            }
-        }
-    }
 }
