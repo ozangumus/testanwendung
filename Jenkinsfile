@@ -19,10 +19,19 @@ pipeline {
         }
         stage('Run Docker Container') {
             steps {
-                // Docker-Container starten
+                // Docker-Container starten (lokal für Tests)
                 script {
                     // Verwende bat, wenn auf Windows
                     bat 'docker run -d -p 8081:80 mein-html-projekt'
+                }
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                // Deployment auf Kubernetes
+                script {
+                    // Deployment mit kubectl auf Kubernetes anwenden
+                    bat 'kubectl apply -f deployment.yaml'
                 }
             }
         }
