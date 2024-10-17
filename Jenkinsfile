@@ -12,7 +12,6 @@ pipeline {
             steps {
                 // Docker-Image bauen
                 script {
-                    
                     bat 'docker build -t mein-html-projekt .'
                 }
             }
@@ -21,9 +20,9 @@ pipeline {
             steps {
                 // Docker-Container starten (lokal für Tests)
                 script {
-                    
                     bat 'docker run -d -p 8081:80 mein-html-projekt'
                 }
             }
         }
-}
+    } 
+} 
