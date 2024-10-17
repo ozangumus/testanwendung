@@ -31,9 +31,6 @@ pipeline {
                 // Deployment auf Kubernetes
                 script {
 	            bat 'kubectl apply -f deployment.yaml --validate=false'
-
-                    // Deployment mit kubectl auf Kubernetes anwenden
-                    bat 'kubectl apply -f deployment.yaml'
                 }
             }
         }
