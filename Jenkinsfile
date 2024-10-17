@@ -10,7 +10,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                // Docker-Image bauen
+                // Docker-Image lokal bauen
                 script {
                     bat 'docker build -t mein-html-projekt .'
                 }
@@ -18,11 +18,49 @@ pipeline {
         }
         stage('Run Docker Container') {
             steps {
-                // Docker-Container starten (lokal für Tests)
+                // Docker-Container lokal starten (für Tests)
                 script {
                     bat 'docker run -d -p 8081:80 mein-html-projekt'
                 }
             }
         }
-    } 
-} 
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    bat '''
+                    kubectl apply -f - <<EOF
+                    apiVersion: apps/v1
+                    kind: Deployment
+                    metadata:
+                      name: mein-html-projekt-deployment
+                    spec:
+                      replicas: 1
+                      selector:
+                        matchLabels:
+                          app: mein-html-projekt
+                      template:
+                        metadata:
+                          labels:
+                            app: mein-html-projekt
+                        spec:
+                          containers:
+                          - name: mein-html-projekt
+                            image: mein-html-projekt:latest
+                            ports:
+                            - containerPort: 80
+                    EOF
+                    '''
+                }
+            }
+        }
+        stage('Expose Kubernetes Service') {
+            steps {
+                script {
+                    bat '''
+                    kubectl expose deployment mein-html-projekt-deployment --type=NodePort --name=mein-html-service --port=8081 --target-port=80
+                    '''
+                }
+            }
+        }
+    }
+}
